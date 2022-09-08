@@ -17,6 +17,11 @@ fun TaskScreen(
                 navigateToListScreen = navigateToListScreen
             )
         },
-        content = {}
+        content = {
+            TaskScreen(
+                selectedTask = selectedTask,
+                navigateToListScreen = navigateToListScreen
+            )
+        }
     )
 }
