@@ -1,15 +1,17 @@
 package com.savieliev.anton.to_docompose.navigation
 
+import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.navigation.NavHostController
-import androidx.navigation.compose.NavHost
+import com.google.accompanist.navigation.animation.AnimatedNavHost
 import com.savieliev.anton.to_docompose.navigation.destinations.listComposable
 import com.savieliev.anton.to_docompose.navigation.destinations.splashComposable
 import com.savieliev.anton.to_docompose.navigation.destinations.taskComposable
 import com.savieliev.anton.to_docompose.ui.viewmodels.SharedViewModel
 import com.savieliev.anton.to_docompose.util.Constants.SPLASH_SCREEN
 
+@ExperimentalAnimationApi
 @Composable
 fun SetupNavigation(
     navController: NavHostController,
@@ -19,7 +21,7 @@ fun SetupNavigation(
         Screens(navController = navController)
     }
 
-    NavHost(navController = navController, startDestination = SPLASH_SCREEN) {
+    AnimatedNavHost(navController = navController, startDestination = SPLASH_SCREEN) {
         splashComposable(
             navigateToListScreen = screen.splash
         )
