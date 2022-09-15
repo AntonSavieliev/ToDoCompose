@@ -26,7 +26,6 @@ import com.savieliev.anton.to_docompose.ui.theme.*
 import com.savieliev.anton.to_docompose.ui.viewmodels.SharedViewModel
 import com.savieliev.anton.to_docompose.util.Action
 import com.savieliev.anton.to_docompose.util.SearchAppBarState
-import com.savieliev.anton.to_docompose.util.TrailingIconState
 
 
 @Composable
@@ -197,10 +196,6 @@ fun SearchAppBar(
     onSearchClicked: (String) -> Unit
 ) {
 
-    var trailingIconState by remember {
-        mutableStateOf(TrailingIconState.READY_TO_DELETE)
-    }
-
     Surface(
         modifier = Modifier
             .fillMaxWidth()
@@ -246,19 +241,10 @@ fun SearchAppBar(
                     modifier = Modifier
                         .alpha(ContentAlpha.disabled),
                     onClick = {
-                        when (trailingIconState) {
-                            TrailingIconState.READY_TO_DELETE -> {
-                                onTextChange("")
-                                trailingIconState = TrailingIconState.READY_TO_CLOSE
-                            }
-                            TrailingIconState.READY_TO_CLOSE -> {
-                                if (text.isNotEmpty()) {
-                                    onTextChange("")
-                                } else {
-                                    onCloseClicked()
-                                    trailingIconState = TrailingIconState.READY_TO_DELETE
-                                }
-                            }
+                        if (text.isNotEmpty()) {
+                            onTextChange("")
+                        } else {
+                            onCloseClicked()
                         }
                     }
                 ) {

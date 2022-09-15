@@ -2,12 +2,16 @@ package com.savieliev.anton.to_docompose.navigation.destinations
 
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavType
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import com.savieliev.anton.to_docompose.ui.screens.list.ListScreen
 import com.savieliev.anton.to_docompose.ui.viewmodels.SharedViewModel
+import com.savieliev.anton.to_docompose.util.Action
 import com.savieliev.anton.to_docompose.util.Constants.LIST_ARGUMENT_KEY
 import com.savieliev.anton.to_docompose.util.Constants.LIST_SCREEN
 import com.savieliev.anton.to_docompose.util.toAction
@@ -24,8 +28,13 @@ fun NavGraphBuilder.listComposable(
     ) { navBackStackEntry ->
         val action = navBackStackEntry.arguments?.getString(LIST_ARGUMENT_KEY).toAction()
 
-        LaunchedEffect(key1 = action) {
-            sharedViewModel.action.value = action
+        var myAction by rememberSaveable { mutableStateOf(Action.NO_ACTION) }
+
+        LaunchedEffect(key1 = myAction) {
+            if (action != myAction) {
+                myAction = action
+                sharedViewModel.action.value = action
+            }
         }
 
         val databaseAction by sharedViewModel.action
